@@ -1,6 +1,6 @@
 {{/* extends "layouts.app" */}}
 
-@section('content')
+{{ define "content" }}
 <style>
     :root {
         --primary: #0d9488;
@@ -452,37 +452,6 @@
         margin: 0 auto 1rem;
     }
     
-    .module-card.coming-soon {
-        opacity: 0.5;
-        pointer-events: none;
-    }
-    
-    .module-card.coming-soon .module-icon {
-        background: linear-gradient(135deg, #64748b, #475569);
-    }
-    
-    .coming-soon-badge {
-        display: inline-block;
-        padding: 0.2rem 0.6rem;
-        background: rgba(100, 116, 139, 0.15);
-        color: #94a3b8;
-        border-radius: 50px;
-        font-size: 0.65rem;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        margin-top: 0.5rem;
-    }
-    
-    .feature-card.coming-soon {
-        opacity: 0.5;
-        pointer-events: none;
-    }
-    
-    .feature-card.coming-soon .feature-icon {
-        background: linear-gradient(135deg, rgba(100, 116, 139, 0.1), rgba(71, 85, 105, 0.1));
-    }
-    
     .module-card h4 {
         font-size: 1rem;
         font-weight: 600;
@@ -911,35 +880,30 @@
             <h3>EMR & Prescriptions</h3>
             <p>Digital health records, vitals tracking, prescriptions. Everything your doctors need at their fingertips.</p>
         </div>
-        <div class="feature-card coming-soon">
+        <div class="feature-card">
             <div class="feature-icon">💊</div>
             <h3>Pharmacy Management</h3>
             <p>Stock tracking, expiry alerts, barcode support. Complete pharmacy operations from purchase to sale.</p>
-            <div class="coming-soon-badge">Coming Soon</div>
         </div>
-        <div class="feature-card coming-soon">
+        <div class="feature-card">
             <div class="feature-icon">🧪</div>
             <h3>Lab Integration</h3>
             <p>Test ordering, result entry, report generation. Streamline your laboratory workflow.</p>
-            <div class="coming-soon-badge">Coming Soon</div>
         </div>
-        <div class="feature-card coming-soon">
+        <div class="feature-card">
             <div class="feature-icon">💰</div>
             <h3>Billing & Payments</h3>
             <p>Auto-invoicing, multiple payment methods, insurance support. Get paid faster with automated billing.</p>
-            <div class="coming-soon-badge">Coming Soon</div>
         </div>
-        <div class="feature-card coming-soon">
+        <div class="feature-card">
             <div class="feature-icon">📊</div>
             <h3>Analytics & Reports</h3>
             <p>Revenue reports, patient analytics, doctor performance. Make data-driven decisions for your clinic.</p>
-            <div class="coming-soon-badge">Coming Soon</div>
         </div>
-        <div class="feature-card coming-soon">
+        <div class="feature-card">
             <div class="feature-icon">📱</div>
             <h3>Patient Portal</h3>
             <p>Patients can book appointments, view prescriptions, pay bills online. Reduce front desk workload.</p>
-            <div class="coming-soon-badge">Coming Soon</div>
         </div>
     </div>
 </section>
@@ -970,57 +934,49 @@
                 <p>Calendar, tokens, reminders</p>
             </div>
             <div class="module-card">
+                <div class="module-icon">📋</div>
+                <h4>EMR / Visit</h4>
+                <p>Vitals, symptoms, diagnosis</p>
+            </div>
+            <div class="module-card">
                 <div class="module-icon">💊</div>
                 <h4>Prescription</h4>
                 <p>Create, print, history</p>
             </div>
-            <div class="module-card coming-soon">
-                <div class="module-icon">📋</div>
-                <h4>EMR / Visit</h4>
-                <p>Vitals, symptoms, diagnosis</p>
-                <div class="coming-soon-badge">Coming Soon</div>
-            </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">💰</div>
                 <h4>Billing</h4>
                 <p>Invoices, payments, refunds</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">🏪</div>
                 <h4>Pharmacy</h4>
                 <p>Stock, sales, expiry tracking</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">🧪</div>
                 <h4>Lab</h4>
                 <p>Tests, results, reports</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">📦</div>
                 <h4>Inventory</h4>
                 <p>Items, stock, transfers</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">👥</div>
                 <h4>HRMS</h4>
                 <p>Employees, attendance, payroll</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">🛏️</div>
                 <h4>Room & Bed</h4>
                 <p>Allocation, admission, discharge</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="module-card coming-soon">
+            <div class="module-card">
                 <div class="module-icon">🔔</div>
                 <h4>Notifications</h4>
                 <p>Email, SMS, push, in-app</p>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
         </div>
     </div>
@@ -1167,4 +1123,4 @@
         }
     }
 </script>
-@endsection
+{{ end }}

@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "clms_website/bootstrap"
 
 func main() {
-	fmt.Println("clms_website (web) is running!")
+	app := bootstrap.NewApplication()
+	app.Serve()
 }
