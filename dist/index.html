@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLMS - Clinic Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #14b8a6;
+            --accent: #06b6d4;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --modules-bg: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%);
+            --footer-bg: #1e293b;
+            --footer-border: #334155;
+        }
+        
+        [data-theme="dark"] {
+            --primary: #14b8a6;
+            --primary-dark: #0d9488;
+            --primary-light: #2dd4bf;
+            --accent: #22d3ee;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --navbar-bg: rgba(15, 23, 42, 0.95);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            --modules-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            --footer-bg: #020617;
+            --footer-border: #1e293b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+        [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.4);
+        }
+        
+        .hero {
+            padding: 8rem 2rem 4rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(13, 148, 136, 0.2);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-card.featured {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+        }
+        
+        [data-theme="dark"] .stat-card.featured {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+        }
+        
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .stat-card-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        
+        .stat-card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-card:not(.featured) .stat-card-icon {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+        }
+        
+        .stat-card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .stat-card:not(.featured) .stat-card-change {
+            color: var(--primary);
+        }
+        
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(6, 182, 212, 0.1));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .modules {
+            padding: 5rem 2rem;
+            background: var(--modules-bg);
+            transition: background 0.3s;
+        }
+        
+        .modules-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .module-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+        
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+        
+        .module-card.coming-soon {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .module-card.coming-soon .module-icon {
+            background: linear-gradient(135deg, #64748b, #475569);
+        }
+        
+        .coming-soon-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: rgba(100, 116, 139, 0.15);
+            color: #94a3b8;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+        
+        .feature-card.coming-soon {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .feature-card.coming-soon .feature-icon {
+            background: linear-gradient(135deg, rgba(100, 116, 139, 0.1), rgba(71, 85, 105, 0.1));
+        }
+        
+        .module-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .packages {
+            padding: 5rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .package-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .package-card.popular {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .package-card.popular::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .package-card.popular:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .package-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .package-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .package-price span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .package-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .package-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .package-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .package-features li::before {
+            content: '\2713';
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .package-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+        }
+        
+        .package-card:not(.popular) .package-btn {
+            background: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .package-card:not(.popular) .package-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .package-card.popular .package-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+        }
+        
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+        
+        .footer {
+            background: var(--footer-bg);
+            color: #94a3b8;
+            padding: 4rem 2rem 2rem;
+            transition: background 0.3s;
+        }
+        
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-brand p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        
+        .footer-col h4 {
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-col a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-col a:hover {
+            color: var(--primary-light);
+        }
+        
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--footer-border);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .modules-grid { grid-template-columns: repeat(3, 1fr); }
+            .packages-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .package-card.popular { transform: none; }
+            .package-card.popular:hover { transform: translateY(-5px); }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon">🏥</div>
+                CLMS
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#modules">Modules</a></li>
+                <li><a href="#packages">Pricing</a></li>
+                <li><a href="#docs">Docs</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                <a href="/login" class="btn btn-outline">Login</a>
+                <a href="/register" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            SaaS Clinic Management System
+        </div>
+        <h1>
+            Manage Your Clinic<br>
+            <span>With Confidence</span>
+        </h1>
+        <p>
+            A complete multi-tenant clinic management platform. Handle patients, appointments, 
+            billing, pharmacy, lab, and more — all in one place.
+        </p>
+        <div class="hero-buttons">
+            <a href="/register" class="btn btn-primary">Start Free Trial</a>
+            <a href="/demo" class="btn btn-outline">Book Demo</a>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card featured">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Total Patients</span>
+                    <div class="stat-card-icon">👥</div>
+                </div>
+                <div class="stat-card-value">12,845</div>
+                <div class="stat-card-change">↑ 12% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Appointments Today</span>
+                    <div class="stat-card-icon">📅</div>
+                </div>
+                <div class="stat-card-value">48</div>
+                <div class="stat-card-change">↑ 8% from yesterday</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Revenue This Month</span>
+                    <div class="stat-card-icon">💰</div>
+                </div>
+                <div class="stat-card-value">$45.2K</div>
+                <div class="stat-card-change">↑ 18% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">Active Doctors</span>
+                    <div class="stat-card-icon">👨‍⚕️</div>
+                </div>
+                <div class="stat-card-value">24</div>
+                <div class="stat-card-change">↑ 2 new this week</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-badge">Features</div>
+            <h2>Everything You Need</h2>
+            <p>Powerful features designed for modern clinics. From patient management to billing, we've got you covered.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏥</div>
+                <h3>Multi-Tenant SaaS</h3>
+                <p>Each clinic gets isolated data with shared infrastructure. Scale efficiently while maintaining privacy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>RBAC Security</h3>
+                <p>Role-based access control with granular permissions. Doctors, receptionists, pharmacists — each sees only what they need.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Smart Scheduling</h3>
+                <p>Calendar view, token system, online booking. Manage doctor schedules and patient appointments effortlessly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>EMR & Prescriptions</h3>
+                <p>Digital health records, vitals tracking, prescriptions. Everything your doctors need at their fingertips.</p>
+            </div>
+            <div class="feature-card coming-soon">
+                <div class="feature-icon">💊</div>
+                <h3>Pharmacy Management</h3>
+                <p>Stock tracking, expiry alerts, barcode support. Complete pharmacy operations from purchase to sale.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+            <div class="feature-card coming-soon">
+                <div class="feature-icon">🧪</div>
+                <h3>Lab Integration</h3>
+                <p>Test ordering, result entry, report generation. Streamline your laboratory workflow.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+            <div class="feature-card coming-soon">
+                <div class="feature-icon">💰</div>
+                <h3>Billing & Payments</h3>
+                <p>Auto-invoicing, multiple payment methods, insurance support. Get paid faster with automated billing.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+            <div class="feature-card coming-soon">
+                <div class="feature-icon">📊</div>
+                <h3>Analytics & Reports</h3>
+                <p>Revenue reports, patient analytics, doctor performance. Make data-driven decisions for your clinic.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+            <div class="feature-card coming-soon">
+                <div class="feature-icon">📱</div>
+                <h3>Patient Portal</h3>
+                <p>Patients can book appointments, view prescriptions, pay bills online. Reduce front desk workload.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section class="modules" id="modules">
+        <div class="modules-container">
+            <div class="section-header">
+                <div class="section-badge">Modules</div>
+                <h2>Comprehensive Modules</h2>
+                <p>Each module is designed to handle specific aspects of clinic operations.</p>
+            </div>
+            
+            <div class="modules-grid">
+                <div class="module-card">
+                    <div class="module-icon">👥</div>
+                    <h4>Patient Mgmt</h4>
+                    <p>Registration, history, attachments</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">👨‍⚕️</div>
+                    <h4>Doctor Mgmt</h4>
+                    <p>Profiles, schedules, leaves</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">📅</div>
+                    <h4>Appointments</h4>
+                    <p>Calendar, tokens, reminders</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">💊</div>
+                    <h4>Prescription</h4>
+                    <p>Create, print, history</p>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">📋</div>
+                    <h4>EMR / Visit</h4>
+                    <p>Vitals, symptoms, diagnosis</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">💰</div>
+                    <h4>Billing</h4>
+                    <p>Invoices, payments, refunds</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">🏪</div>
+                    <h4>Pharmacy</h4>
+                    <p>Stock, sales, expiry tracking</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">🧪</div>
+                    <h4>Lab</h4>
+                    <p>Tests, results, reports</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">📦</div>
+                    <h4>Inventory</h4>
+                    <p>Items, stock, transfers</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">👥</div>
+                    <h4>HRMS</h4>
+                    <p>Employees, attendance, payroll</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">🛏️</div>
+                    <h4>Room & Bed</h4>
+                    <p>Allocation, admission, discharge</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+                <div class="module-card coming-soon">
+                    <div class="module-icon">🔔</div>
+                    <h4>Notifications</h4>
+                    <p>Email, SMS, push, in-app</p>
+                    <div class="coming-soon-badge">Coming Soon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section class="packages" id="packages">
+        <div class="section-header">
+            <div class="section-badge">Pricing</div>
+            <h2>Simple, Transparent Pricing</h2>
+            <p>Choose the plan that fits your clinic. Upgrade anytime as you grow.</p>
+        </div>
+        
+        <div class="packages-grid">
+            <div class="package-card">
+                <div class="package-name">Starter</div>
+                <div class="package-price">$49<span>/month</span></div>
+                <div class="package-desc">Perfect for small clinics getting started with digital management.</div>
+                <ul class="package-features">
+                    <li>1 Branch</li>
+                    <li>5 Users</li>
+                    <li>500 Patients</li>
+                    <li>Patient Management</li>
+                    <li>Appointments</li>
+                    <li>Prescriptions</li>
+                    <li>Basic Billing</li>
+                </ul>
+                <a href="/register?package=starter" class="package-btn">Get Started</a>
+            </div>
+            
+            <div class="package-card popular">
+                <div class="package-name">Professional</div>
+                <div class="package-price">$149<span>/month</span></div>
+                <div class="package-desc">For growing clinics that need pharmacy and lab management.</div>
+                <ul class="package-features">
+                    <li>3 Branches</li>
+                    <li>25 Users</li>
+                    <li>5,000 Patients</li>
+                    <li>Everything in Starter</li>
+                    <li>Pharmacy Module</li>
+                    <li>Lab Module</li>
+                    <li>HRMS</li>
+                    <li>Inventory</li>
+                </ul>
+                <a href="/register?package=professional" class="package-btn">Get Started</a>
+            </div>
+            
+            <div class="package-card">
+                <div class="package-name">Enterprise</div>
+                <div class="package-price">$349<span>/month</span></div>
+                <div class="package-desc">For hospital networks needing advanced features and API access.</div>
+                <ul class="package-features">
+                    <li>Unlimited Branches</li>
+                    <li>Unlimited Users</li>
+                    <li>Unlimited Patients</li>
+                    <li>Everything in Professional</li>
+                    <li>Room & Bed Management</li>
+                    <li>Telemedicine</li>
+                    <li>API Access</li>
+                    <li>WhatsApp Integration</li>
+                </ul>
+                <a href="/register?package=enterprise" class="package-btn">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Ready to Transform Your Clinic?</h2>
+            <p>Join hundreds of clinics already using CLMS to streamline their operations and improve patient care.</p>
+            <div class="cta-buttons">
+                <a href="/register" class="btn-white">Start Free Trial</a>
+                <a href="/contact" class="btn-ghost">Talk to Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>🏥 CLMS</h3>
+                    <p>A complete multi-tenant clinic management system built with Go. Fast, secure, and scalable for modern healthcare.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#modules">Modules</a></li>
+                        <li><a href="#packages">Pricing</a></li>
+                        <li><a href="/demo">Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/docs">Documentation</a></li>
+                        <li><a href="/api">API Reference</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/support">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/privacy">Privacy</a></li>
+                        <li><a href="/terms">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CLMS. All rights reserved. Built with GoW.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        if (!localStorage.getItem('theme')) {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                html.setAttribute('data-theme', 'dark');
+            }
+        }
+    </script>
+</body>
+</html>
